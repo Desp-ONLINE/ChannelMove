@@ -3,7 +3,6 @@ package com.binggre.channelMove.config;
 import com.binggre.binggreapi.utils.file.FileManager;
 import com.binggre.channelMove.ChannelMove;
 import com.binggre.channelMove.objects.MoveChannelObject;
-import lombok.Getter;
 
 import java.io.File;
 import java.util.ArrayList;
