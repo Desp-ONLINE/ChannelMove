@@ -1,0 +1,5 @@
+{
+  "npc": "npc 아이디",
+  "channel": "game",
+  "warpCommand": "/warp aa"
+}

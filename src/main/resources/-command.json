@@ -1,0 +1,5 @@
+{
+  "command": "/test",
+  "channel": "game",
+  "warpCommand": "/warp aa"
+}
