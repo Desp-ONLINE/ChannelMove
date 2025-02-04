@@ -1,6 +1,7 @@
 package com.binggre.channelMove.listeners.velocity;
 
 import com.binggre.channelMove.ChannelMove;
+import com.binggre.channelMove.config.ChannelConfig;
 import com.binggre.velocitysocketclient.listener.VelocitySocketListener;
 import com.binggre.velocitysocketclient.socket.SocketResponse;
 import org.bukkit.Bukkit;
@@ -14,6 +15,9 @@ public class WarpListener extends VelocitySocketListener {
         String playerName = messages[0];
         final String[] command = {messages[1]};
 
+
+
+
         Bukkit.getScheduler().runTaskLater(ChannelMove.getInstance(), () -> {
             Player player = Bukkit.getPlayer(playerName);
             if (player == null) {
@@ -24,7 +28,7 @@ public class WarpListener extends VelocitySocketListener {
                 warpCommand = warpCommand.substring(1);
             }
             player.performCommand(warpCommand);
-        }, 30L);
+        }, ChannelConfig.getInstance().getDelay());
     }
 
     @Override

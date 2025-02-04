@@ -3,36 +3,39 @@ package com.binggre.channelMove.config;
 import com.binggre.binggreapi.utils.file.FileManager;
 import com.binggre.channelMove.ChannelMove;
 import com.binggre.channelMove.objects.MoveChannelObject;
+import com.binggre.mongolibraryplugin.base.MongoConfiguration;
+import lombok.Getter;
+import org.bson.Document;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChannelConfig {
+@Getter
+public class ChannelConfig extends MongoConfiguration {
 
     private static ChannelConfig instance = null;
-    private static final String PATH = ChannelMove.getInstance().getDataFolder().getPath();
+
+    public ChannelConfig(String database, String collection) {
+        super(database, collection);
+    }
 
     public static ChannelConfig getInstance() {
         if (instance == null) {
-            instance = new ChannelConfig();
+            instance = new ChannelConfig(ChannelMove.DATA_BASE_NAME, "Config");
         }
         return instance;
     }
 
-    private final List<MoveChannelObject> channelList = new ArrayList<>();
+    private long delay;
 
-    public List<MoveChannelObject> getChannelList() {
-        return new ArrayList<>(channelList);
-    }
-
+    @Override
     public void init() {
-        channelList.clear();
-        List<File> files = FileManager.readFiles(PATH);
+        Document configDocument = getConfigDocument();
 
-        for (File file : files) {
-            MoveChannelObject read = FileManager.read(MoveChannelObject.class, file);
-            channelList.add(read);
+        if (configDocument != null) {
+            instance = FileManager.toObject(configDocument.toJson(), ChannelConfig.class);
+        } else {
+            instance.delay = 20;
         }
     }
 }

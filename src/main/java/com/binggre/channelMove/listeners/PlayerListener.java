@@ -1,8 +1,10 @@
 package com.binggre.channelMove.listeners;
 
+import com.binggre.channelMove.ChannelMove;
 import com.binggre.channelMove.config.ChannelConfig;
 import com.binggre.channelMove.listeners.velocity.WarpListener;
 import com.binggre.channelMove.objects.MoveChannelObject;
+import com.binggre.channelMove.repository.MoveChannelObjectRepository;
 import com.binggre.velocitysocketclient.VelocityClient;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import org.bukkit.entity.Player;
@@ -12,6 +14,8 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class PlayerListener implements Listener {
 
+    private final MoveChannelObjectRepository repository = ChannelMove.getInstance().getRepository();
+
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent event) {
         String eventCommand = event.getMessage();
@@ -19,7 +23,7 @@ public class PlayerListener implements Listener {
             eventCommand = eventCommand.substring(1);
         }
 
-        for (MoveChannelObject moveChannelObject : ChannelConfig.getInstance().getChannelList()) {
+        for (MoveChannelObject moveChannelObject : repository.getCache().values()) {
             String command = moveChannelObject.getCommand();
             if (command == null) {
                 continue;
@@ -42,7 +46,7 @@ public class PlayerListener implements Listener {
     public void onClickNPC(NPCRightClickEvent event) {
         int id = event.getNPC().getId();
 
-        for (MoveChannelObject moveChannelObject : ChannelConfig.getInstance().getChannelList()) {
+        for (MoveChannelObject moveChannelObject : repository.getCache().values()) {
             if (id == moveChannelObject.getNpc()) {
                 Player player = event.getClicker();
                 player.performCommand("채널 이동 " + moveChannelObject.getChannel());
