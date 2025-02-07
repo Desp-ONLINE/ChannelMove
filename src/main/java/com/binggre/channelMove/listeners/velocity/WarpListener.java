@@ -26,7 +26,7 @@ public class WarpListener extends VelocitySocketListener {
                 warpCommand = warpCommand.substring(1);
             }
             CommandManager.runCommand(player, warpCommand, true);
-        }, ChannelConfig.getInstance().getDelay());
+        }, ChannelMove.getInstance().getChannelConfig().getDelay());
     }
 
     @Override

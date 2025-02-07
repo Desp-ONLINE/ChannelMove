@@ -1,7 +1,7 @@
 package com.binggre.channelMove.commands.arguments;
 
 import com.binggre.binggreapi.command.CommandArgument;
-import com.binggre.channelMove.config.ChannelConfig;
+import com.binggre.channelMove.ChannelMove;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +10,7 @@ public class ReloadArgument implements CommandArgument {
 
     @Override
     public boolean execute(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        ChannelConfig.getInstance().init();
+        ChannelMove.getInstance().getChannelConfig().init();
         commandSender.sendMessage("리로드 완료");
         return true;
     }

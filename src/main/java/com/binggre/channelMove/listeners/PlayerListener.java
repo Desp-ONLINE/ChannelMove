@@ -1,5 +1,6 @@
 package com.binggre.channelMove.listeners;
 
+import com.binggre.binggreapi.utils.command.CommandManager;
 import com.binggre.channelMove.ChannelMove;
 import com.binggre.channelMove.listeners.velocity.WarpListener;
 import com.binggre.channelMove.objects.MoveChannelObject;
@@ -16,28 +17,6 @@ public class PlayerListener implements Listener {
     private final MoveChannelObjectRepository repository = ChannelMove.getInstance().getRepository();
 
     @EventHandler
-    public void onCommand(PlayerCommandPreprocessEvent event) {
-        String eventCommand = event.getMessage();
-        if (eventCommand.startsWith("/")) {
-            eventCommand = eventCommand.substring(1);
-        }
-
-        for (MoveChannelObject moveChannelObject : repository.getCache().values()) {
-            String command = moveChannelObject.getCommand();
-            if (command == null) {
-                continue;
-            }
-            if (command.startsWith("/")) {
-                command = command.substring(1);
-            }
-            if (command.equalsIgnoreCase(eventCommand)) {
-                performCommand(event.getPlayer(), moveChannelObject);
-                break;
-            }
-        }
-    }
-
-    @EventHandler
     public void onClickNPC(NPCRightClickEvent event) {
         int id = event.getNPC().getId();
 
@@ -50,9 +29,9 @@ public class PlayerListener implements Listener {
     }
 
     private void performCommand(Player player, MoveChannelObject moveChannelObject) {
-        player.performCommand("채널 이동 " + moveChannelObject.getChannel());
         VelocityClient.getInstance()
                 .getConnectClient()
                 .send(WarpListener.class, player.getName(), moveChannelObject.getWarpCommand());
+        CommandManager.runCommand(player, "채널 이동 " + moveChannelObject.getChannel(), true);
     }
 }
