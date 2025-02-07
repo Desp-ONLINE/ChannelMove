@@ -17,7 +17,11 @@ public class ChannelConfig extends MongoConfiguration {
 
     @Override
     public void init() {
-        String json = super.getConfigDocument().toJson();
+        Document configDocument = getConfigDocument();
+        if (configDocument == null) {
+            return;
+        }
+        String json = configDocument.toJson();
         ChannelConfig newInstance = FileManager.toObject(json, ChannelConfig.class);
 
         delay = newInstance.delay;
