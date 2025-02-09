@@ -23,8 +23,11 @@ public class WarpArgument implements CommandArgument {
     public boolean execute(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         Player player = (Player) commandSender;
         String serverName = args[1];
-
-        for (MoveChannelObject moveChannelObject : repository.getCache().values()) {
+        CommandManager.runCommand(player, "채널 이동 " + serverName, true);
+        VelocityClient.getInstance()
+                .getConnectClient()
+                .send(WarpListener.class, player.getName(), CommandManager.space(args, 2));
+/*        for (MoveChannelObject moveChannelObject : repository.getCache().values()) {
             String warpCommand = moveChannelObject.getCommand();
             if (warpCommand == null) {
                 continue;
@@ -33,13 +36,10 @@ public class WarpArgument implements CommandArgument {
                 warpCommand = warpCommand.substring(1);
             }
             if (serverName.equalsIgnoreCase(args[1]) && warpCommand.equalsIgnoreCase(args[2])) {
-                VelocityClient.getInstance()
-                        .getConnectClient()
-                        .send(WarpListener.class, player.getName(), moveChannelObject.getWarpCommand());
-                CommandManager.runCommand(player, "채널 이동 " + moveChannelObject.getChannel(), true);
+
                 break;
             }
-        }
+        }*/
         return true;
     }
 
