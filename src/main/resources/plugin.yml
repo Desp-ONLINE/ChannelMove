@@ -1,5 +1,5 @@
 name: ChannelMove
-version: '1.0.0'
+version: '${version}'
 main: com.binggre.channelMove.ChannelMove
 api-version: '1.20'
 authors: [ binggre ]
